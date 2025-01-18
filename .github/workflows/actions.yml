@@ -34,6 +34,14 @@ jobs:
       run: |
         aws eks update-kubeconfig --name interesting-synth-ant --region us-east-1
 
+    - name: Create ECR imagePullSecret in Kubernetes
+      run: |
+        kubectl create secret docker-registry ecr-secret \
+          --docker-server=${{ secrets.AWS_ECR_URL }} \
+          --docker-username=AWS \
+          --docker-password=$(aws ecr get-login-password --region us-east-1) \
+          --namespace default || echo "Secret already exists"
+          
     - name: Deploy to EKS
       run: |
         kubectl apply -f deployment.yml
