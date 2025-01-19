@@ -38,14 +38,14 @@ jobs:
       run: |
         aws eks update-kubeconfig --name interesting-synth-ant --region us-east-1
 
-    - name: Create ECR imagePullSecret in Kubernetes
-      run: |
-        kubectl create secret docker-registry ecr-secret \
-          --docker-server=${{ secrets.AWS_ECR_URL }} \
-          --docker-username=AWS \
-          --docker-password=$(aws ecr get-login-password --region us-east-1) \
-          --namespace default || echo "Secret already exists"
+    # - name: Create ECR imagePullSecret in Kubernetes
+    #   run: |
+    #     kubectl create secret docker-registry ecr-secret \
+    #       --docker-server=${{ secrets.AWS_ECR_URL }} \
+    #       --docker-username=AWS \
+    #       --docker-password=$(aws ecr get-login-password --region us-east-1) \
+    #       --namespace default || echo "Secret already exists"
 
     - name: Deploy using Helm
       run: |
-        helm upgrade --install flask-app ./flask-app --namespace default --recreate-pods
+        helm upgrade --install flask-app ./flask-app --namespace default
