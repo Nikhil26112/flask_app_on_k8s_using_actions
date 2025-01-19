@@ -6,7 +6,7 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 80
 
 ingress:
@@ -15,6 +15,7 @@ ingress:
     alb.ingress.kubernetes.io/group.name: "main"
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
+    kubernetes.io/ingress.class: "alb"
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
   hosts:
     - host: flask-app.nikhilchauhan.me
